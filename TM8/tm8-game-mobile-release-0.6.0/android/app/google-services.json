@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "212896338218",
+    "project_id": "tm8-gaming",
+    "storage_bucket": "tm8-gaming.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:212896338218:android:c243750b663ca600aa4e53",
+        "android_client_info": {
+          "package_name": "com.tm8.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "212896338218-vf44r3tjjqqvskb4i3bvc999ui37sp63.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tm8.game",
+            "certificate_hash": "f12f6b5103dc316aa5e4e8340edee232237b3a80"
+          }
+        },
+        {
+          "client_id": "212896338218-phi4q6cv7r0jm3rmj36o49dtd9h2qsnl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnT-2ptaYe1kx0urfYglFNqwRGZm_f2ug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "212896338218-1jpcdh71mi6n12hrotjmpfg6fdedia0e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "212896338218-oalu00drf6mi660kbu1e78cv2vm1ocm1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tm8.game"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

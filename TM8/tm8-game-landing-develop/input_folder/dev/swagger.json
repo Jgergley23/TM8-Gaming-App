@@ -1,0 +1,2495 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/": {
+            "get": {
+                "operationId": "AppController_getHealthCheck",
+                "summary": "Get health check information",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Health check information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HealthCheckResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Application"
+                ]
+            }
+        },
+        "/exceptions": {
+            "get": {
+                "operationId": "AppController_getExceptionMetadata",
+                "summary": "Get exception metadata",
+                "description": "Note: This endpoint is available only in development environment",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Exception metadata"
+                    }
+                },
+                "tags": [
+                    "Application"
+                ]
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "operationId": "UserController_listUsers",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "minimum": 1,
+                            "default": 1,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Page size",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 50,
+                            "default": 10,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "required": false,
+                        "in": "query",
+                        "description": "Sorting parameters",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "roles",
+                        "required": false,
+                        "in": "query",
+                        "description": "User roles filter",
+                        "schema": {
+                            "nullable": true,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "username",
+                        "required": false,
+                        "in": "query",
+                        "description": "Username filter",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "required": false,
+                        "in": "query",
+                        "description": "Name filter",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "required": false,
+                        "in": "query",
+                        "description": "Status filter",
+                        "schema": {
+                            "nullable": true,
+                            "enum": [
+                                "active",
+                                "inactive",
+                                "banned",
+                                "reported",
+                                "suspended",
+                                "pending"
+                            ],
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserPaginatedResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/admin": {
+            "post": {
+                "operationId": "UserController_createAdmin",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateAdminInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response"
+                    },
+                    "201": {
+                        "description": ""
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/groups": {
+            "get": {
+                "operationId": "UserController_getUserGroups",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserGroupResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/username/{username}": {
+            "get": {
+                "operationId": "UserController_findManyByUsername",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "required": true,
+                        "in": "path",
+                        "description": "Username",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/{userId}": {
+            "get": {
+                "operationId": "UserController_findOne",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "required": true,
+                        "in": "path",
+                        "description": "User ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            },
+            "delete": {
+                "operationId": "UserController_deleteOne",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "required": true,
+                        "in": "path",
+                        "description": "User ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK response"
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/{userId}/preferences": {
+            "get": {
+                "operationId": "UserController_getUserGamePreferences",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "required": true,
+                        "in": "path",
+                        "description": "User ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "games",
+                        "required": false,
+                        "in": "query",
+                        "description": "Game parameters",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserGameDataResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/{userId}/admin-note": {
+            "patch": {
+                "operationId": "UserController_setUserNote",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "required": true,
+                        "in": "path",
+                        "description": "User ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserNoteInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/{userId}/reports": {
+            "get": {
+                "operationId": "UserController_getUserReports",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "required": true,
+                        "in": "path",
+                        "description": "User ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserReportResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/warning/types": {
+            "get": {
+                "operationId": "UserController_getUserWarningTypes",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserWarningTypeResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/report/types": {
+            "get": {
+                "operationId": "UserController_getUserReportTypes",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserReportTypeResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/warning": {
+            "patch": {
+                "operationId": "UserController_warnUsers",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserWarningInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/ban": {
+            "patch": {
+                "operationId": "UserController_banUsers",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserBanInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/suspend": {
+            "patch": {
+                "operationId": "UserController_suspendUsers",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserSuspendInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/users/reset": {
+            "patch": {
+                "operationId": "UserController_resetUsers",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserResetInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/api/v1/auth/token/refresh": {
+            "post": {
+                "operationId": "AuthController_refreshTokens",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Auth"
+                ]
+            }
+        },
+        "/api/v1/auth/sign-in": {
+            "post": {
+                "operationId": "AuthController_login",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthLoginInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Auth"
+                ]
+            }
+        },
+        "/api/v1/auth/forgot-password": {
+            "post": {
+                "operationId": "AuthController_forgotPassword",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgotPasswordInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK response"
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Auth"
+                ]
+            }
+        },
+        "/api/v1/auth/forgot-password/verify": {
+            "post": {
+                "operationId": "AuthController_verifyForgotPassword",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VerifyCodeInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response"
+                    },
+                    "201": {
+                        "description": ""
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Auth"
+                ]
+            }
+        },
+        "/api/v1/auth/forgot-password/reset": {
+            "post": {
+                "operationId": "AuthController_resetPassword",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPasswordInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Auth"
+                ]
+            }
+        },
+        "/api/v1/statistics/users/total-count": {
+            "get": {
+                "operationId": "StatisticsController_getUserCount",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatisticsTotalCountResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Statistics"
+                ]
+            }
+        },
+        "/api/v1/statistics/users/onboarding-completion": {
+            "get": {
+                "operationId": "StatisticsController_getOnboardingCompletion",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatisticsOnboardingCompletionResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Statistics"
+                ]
+            }
+        },
+        "/api/v1/statistics/users/new-users-registered": {
+            "get": {
+                "operationId": "StatisticsController_getNewUsersRegistered",
+                "parameters": [
+                    {
+                        "name": "groupBy",
+                        "required": true,
+                        "in": "query",
+                        "description": "Group parameter",
+                        "schema": {
+                            "enum": [
+                                "day",
+                                "week",
+                                "month",
+                                "year"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startDate",
+                        "required": true,
+                        "in": "query",
+                        "description": "Start date",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "required": true,
+                        "in": "query",
+                        "description": "End date",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StatisticsNewUsersRegisteredResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Statistics"
+                ]
+            }
+        },
+        "/api/v1/statistics/users/group-counts": {
+            "get": {
+                "operationId": "StatisticsController_getUserGroupsCounts",
+                "parameters": [
+                    {
+                        "name": "userGroups",
+                        "required": false,
+                        "in": "query",
+                        "description": "User group filter",
+                        "schema": {
+                            "nullable": true,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserGroupCountsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Statistics"
+                ]
+            }
+        },
+        "/api/v1/scheduled-notifications": {
+            "get": {
+                "operationId": "ScheduledNotificationController_listScheduledNotifications",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "minimum": 1,
+                            "default": 1,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Page size",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 50,
+                            "default": 10,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "required": false,
+                        "in": "query",
+                        "description": "Sorting parameters",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "required": false,
+                        "in": "query",
+                        "description": "Title filter",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "userGroups",
+                        "required": false,
+                        "in": "query",
+                        "description": "User group filter",
+                        "schema": {
+                            "nullable": true,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "types",
+                        "required": false,
+                        "in": "query",
+                        "description": "Notification type filter",
+                        "schema": {
+                            "nullable": true,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScheduledNotificationPaginatedResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scheduled Notification"
+                ]
+            },
+            "post": {
+                "operationId": "ScheduledNotificationController_createScheduledNotification",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateScheduledNotificationInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScheduledNotificationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScheduledNotification"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scheduled Notification"
+                ]
+            },
+            "delete": {
+                "operationId": "ScheduledNotificationController_deleteScheduledNotification",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DeleteScheduledNotificationsInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response"
+                    },
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Scheduled Notification"
+                ]
+            }
+        },
+        "/api/v1/scheduled-notifications/types": {
+            "get": {
+                "operationId": "ScheduledNotificationController_getNotificationTypes",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/NotificationTypeResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scheduled Notification"
+                ]
+            }
+        },
+        "/api/v1/scheduled-notifications/intervals": {
+            "get": {
+                "operationId": "ScheduledNotificationController_getNotificationIntervals",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/NotificationIntervalResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scheduled Notification"
+                ]
+            }
+        },
+        "/api/v1/scheduled-notifications/{notificationId}": {
+            "patch": {
+                "operationId": "ScheduledNotificationController_updateScheduledNotification",
+                "parameters": [
+                    {
+                        "name": "notificationId",
+                        "required": true,
+                        "in": "path",
+                        "description": "Scheduled Notification ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateScheduledNotificationInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScheduledNotificationResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scheduled Notification"
+                ]
+            },
+            "get": {
+                "operationId": "ScheduledNotificationController_findOne",
+                "parameters": [
+                    {
+                        "name": "notificationId",
+                        "required": true,
+                        "in": "path",
+                        "description": "Scheduled Notification ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScheduledNotificationResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scheduled Notification"
+                ]
+            }
+        },
+        "/api/v1/landing-page/contact-form": {
+            "post": {
+                "operationId": "LandingPageController_sendContactEmail",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ContactFormInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK response"
+                    },
+                    "204": {
+                        "description": ""
+                    },
+                    "default": {
+                        "description": "Non-2XX response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TGMDExceptionResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Landing Page"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "TM8 API",
+        "description": "TM8 API",
+        "version": "1.0",
+        "contact": {}
+    },
+    "tags": [],
+    "servers": [],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "type": "http"
+            }
+        },
+        "schemas": {
+            "HealthCheckResponse": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the API"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the API"
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "Version of the API"
+                    }
+                },
+                "required": [
+                    "name",
+                    "description",
+                    "version"
+                ]
+            },
+            "TGMDExceptionResponse": {
+                "type": "object",
+                "properties": {
+                    "origin": {
+                        "enum": [
+                            "HTTP",
+                            "Mongo",
+                            "TGMD",
+                            "Unknown"
+                        ],
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "number",
+                        "description": "HTTP-compatible status code"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "exception": {
+                        "type": "string",
+                        "description": "Exception name"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "Human-readable error message"
+                    }
+                },
+                "required": [
+                    "origin",
+                    "status",
+                    "code",
+                    "exception",
+                    "detail"
+                ]
+            },
+            "UserStatusResponse": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "enum": [
+                            "active",
+                            "inactive",
+                            "banned",
+                            "reported",
+                            "suspended",
+                            "pending"
+                        ],
+                        "type": "string"
+                    },
+                    "note": {
+                        "type": "string"
+                    },
+                    "until": {
+                        "format": "date-time",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "type"
+                ]
+            },
+            "UserResponse": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "gender": {
+                        "enum": [
+                            "male",
+                            "female",
+                            "non-binary",
+                            "prefer-not-to-respond"
+                        ],
+                        "type": "string"
+                    },
+                    "role": {
+                        "enum": [
+                            "user",
+                            "admin",
+                            "superadmin"
+                        ],
+                        "type": "string"
+                    },
+                    "signupType": {
+                        "enum": [
+                            "social",
+                            "manual"
+                        ],
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "timezone": {
+                        "enum": [
+                            "IDLW",
+                            "NUT",
+                            "SST",
+                            "CKT",
+                            "HAST",
+                            "TAHT",
+                            "AKST",
+                            "PST",
+                            "MST",
+                            "CST",
+                            "EST",
+                            "AST",
+                            "NDT",
+                            "BRST",
+                            "BRT",
+                            "ART",
+                            "NST",
+                            "UTC",
+                            "WET",
+                            "CET",
+                            "EET",
+                            "MSK",
+                            "IST",
+                            "NPT",
+                            "BST",
+                            "MMT",
+                            "ICT",
+                            "WIB",
+                            "MYT",
+                            "SGT",
+                            "AWST",
+                            "JST",
+                            "KST",
+                            "ACST",
+                            "AEST",
+                            "VUT",
+                            "NZST",
+                            "CHADT",
+                            "PHOT",
+                            "LINT",
+                            "CHST",
+                            "WAKT"
+                        ],
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "country": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "note": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "photoKey": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phoneNumber": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "dateOfBirth": {
+                        "format": "date-time",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lastLogin": {
+                        "format": "date-time",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/UserStatusResponse"
+                    }
+                },
+                "required": [
+                    "_id",
+                    "email",
+                    "gender",
+                    "role",
+                    "phoneNumber",
+                    "createdAt",
+                    "updatedAt",
+                    "status"
+                ]
+            },
+            "PaginationMetaResponse": {
+                "type": "object",
+                "properties": {
+                    "page": {
+                        "type": "number",
+                        "description": "Page number"
+                    },
+                    "limit": {
+                        "type": "number",
+                        "description": "Page size"
+                    },
+                    "itemCount": {
+                        "type": "number",
+                        "description": "Total items without pagination"
+                    },
+                    "pageCount": {
+                        "type": "number",
+                        "description": "Total pages with current page size"
+                    },
+                    "hasPreviousPage": {
+                        "type": "boolean",
+                        "description": "Flag indicating if there is a previous page"
+                    },
+                    "hasNextPage": {
+                        "type": "boolean",
+                        "description": "Flag indicating if there is a next page"
+                    }
+                },
+                "required": [
+                    "page",
+                    "limit",
+                    "itemCount",
+                    "pageCount",
+                    "hasPreviousPage",
+                    "hasNextPage"
+                ]
+            },
+            "UserPaginatedResponse": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserResponse"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/PaginationMetaResponse"
+                    }
+                },
+                "required": [
+                    "items",
+                    "meta"
+                ]
+            },
+            "CreateAdminInput": {
+                "type": "object",
+                "properties": {
+                    "fullName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "fullName",
+                    "email"
+                ]
+            },
+            "UserGroupResponse": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "enum": [
+                            "all-users",
+                            "fortnite-players",
+                            "apex-legends-players",
+                            "call-of-duty-players",
+                            "rocket-league-players",
+                            "individual-user"
+                        ],
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "key",
+                    "name"
+                ]
+            },
+            "GamePreferenceValueResponse": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string"
+                    },
+                    "selectedValue": {
+                        "type": "string"
+                    },
+                    "numericValue": {
+                        "type": "number"
+                    },
+                    "numericDisplay": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "key"
+                ]
+            },
+            "GamePreferenceResponse": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string"
+                    },
+                    "values": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/GamePreferenceValueResponse"
+                        }
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "key",
+                    "values",
+                    "title"
+                ]
+            },
+            "UserGameDataResponse": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "user": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "#/components/schemas/UserResponse"
+                            }
+                        ]
+                    },
+                    "game": {
+                        "enum": [
+                            "call-of-duty",
+                            "fortnite",
+                            "apex-legends",
+                            "rocket-league"
+                        ],
+                        "type": "string"
+                    },
+                    "preferences": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/GamePreferenceResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "_id",
+                    "user",
+                    "game",
+                    "preferences"
+                ]
+            },
+            "UserNoteInput": {
+                "type": "object",
+                "properties": {
+                    "note": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "note"
+                ]
+            },
+            "UserReportResponse": {
+                "type": "object",
+                "properties": {
+                    "reporter": {
+                        "type": "string"
+                    },
+                    "reportReason": {
+                        "enum": [
+                            "harrasment-and-bullying",
+                            "inappropriate-content",
+                            "spam-and-scams",
+                            "violence-or-threats",
+                            "hate-speech-or-discrimination",
+                            "privacy-violations",
+                            "violation-of-platform-policies",
+                            "safety-concerns"
+                        ],
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "format": "date-time",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "reporter",
+                    "reportReason",
+                    "createdAt"
+                ]
+            },
+            "UserWarningTypeResponse": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "enum": [
+                            "inappropriate-behavior",
+                            "cheating-or-exploiting",
+                            "impersonation-or-false-identity",
+                            "violating-community-guidelines",
+                            "repeated-disruptions",
+                            "inactivity-or-abandonment"
+                        ],
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "key",
+                    "name"
+                ]
+            },
+            "UserReportTypeResponse": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "enum": [
+                            "harrasment-and-bullying",
+                            "inappropriate-content",
+                            "spam-and-scams",
+                            "violence-or-threats",
+                            "hate-speech-or-discrimination",
+                            "privacy-violations",
+                            "violation-of-platform-policies",
+                            "safety-concerns"
+                        ],
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "key",
+                    "name"
+                ]
+            },
+            "UserWarningInput": {
+                "type": "object",
+                "properties": {
+                    "userIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "note": {
+                        "type": "string"
+                    },
+                    "warning": {
+                        "type": "string",
+                        "enum": [
+                            "inappropriate-behavior",
+                            "cheating-or-exploiting",
+                            "impersonation-or-false-identity",
+                            "violating-community-guidelines",
+                            "repeated-disruptions",
+                            "inactivity-or-abandonment"
+                        ]
+                    }
+                },
+                "required": [
+                    "userIds",
+                    "note",
+                    "warning"
+                ]
+            },
+            "UserBanInput": {
+                "type": "object",
+                "properties": {
+                    "userIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "note": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "userIds",
+                    "note"
+                ]
+            },
+            "UserSuspendInput": {
+                "type": "object",
+                "properties": {
+                    "userIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "until": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "note": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "userIds",
+                    "until",
+                    "note"
+                ]
+            },
+            "UserResetInput": {
+                "type": "object",
+                "properties": {
+                    "userIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "userIds"
+                ]
+            },
+            "AuthResponse": {
+                "type": "object",
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    },
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "nextStep": {
+                        "enum": [
+                            "avaiting-verify-email",
+                            "completed",
+                            "proceed-to-reset-password"
+                        ],
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "success"
+                ]
+            },
+            "AuthLoginInput": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "email",
+                    "password"
+                ]
+            },
+            "ForgotPasswordInput": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "email"
+                ]
+            },
+            "VerifyCodeInput": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "code"
+                ]
+            },
+            "ResetPasswordInput": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "email",
+                    "password"
+                ]
+            },
+            "StatisticsTotalCountResponse": {
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "type": "number"
+                    },
+                    "currentWeek": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "total",
+                    "currentWeek"
+                ]
+            },
+            "StatisticsOnboardingCompletionResponse": {
+                "type": "object",
+                "properties": {
+                    "onboardingPct": {
+                        "type": "number"
+                    },
+                    "currentWeek": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "onboardingPct",
+                    "currentWeek"
+                ]
+            },
+            "NewUsersRegisteredObjectResponse": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "date",
+                    "quantity"
+                ]
+            },
+            "StatisticsNewUsersRegisteredResponse": {
+                "type": "object",
+                "properties": {
+                    "chart": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/NewUsersRegisteredObjectResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "chart"
+                ]
+            },
+            "UserGroupCountsResponse": {
+                "type": "object",
+                "properties": {
+                    "allUsers": {
+                        "type": "number",
+                        "nullable": true
+                    },
+                    "apexLegendsPlayers": {
+                        "type": "number",
+                        "nullable": true
+                    },
+                    "callOfDutyPlayers": {
+                        "type": "number",
+                        "nullable": true
+                    },
+                    "fortnitePlayers": {
+                        "type": "number",
+                        "nullable": true
+                    },
+                    "rocketLeaguePlayers": {
+                        "type": "number",
+                        "nullable": true
+                    }
+                }
+            },
+            "ScheduledNotificationDataResponse": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "targetGroup": {
+                        "enum": [
+                            "all-users",
+                            "fortnite-players",
+                            "apex-legends-players",
+                            "call-of-duty-players",
+                            "rocket-league-players",
+                            "individual-user"
+                        ],
+                        "type": "string"
+                    },
+                    "notificationType": {
+                        "enum": [
+                            "game-update",
+                            "new-features",
+                            "system-maintenance",
+                            "exclusive-offers",
+                            "community-news",
+                            "other"
+                        ],
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "title",
+                    "description",
+                    "targetGroup",
+                    "notificationType"
+                ]
+            },
+            "ScheduledNotificationResponse": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "interval": {
+                        "type": "string"
+                    },
+                    "openedBy": {
+                        "type": "number"
+                    },
+                    "receivedBy": {
+                        "type": "number"
+                    },
+                    "uniqueId": {
+                        "type": "string"
+                    },
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "createdAt": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/ScheduledNotificationDataResponse"
+                    }
+                },
+                "required": [
+                    "_id",
+                    "date",
+                    "interval",
+                    "openedBy",
+                    "receivedBy",
+                    "uniqueId",
+                    "users",
+                    "createdAt",
+                    "updatedAt",
+                    "data"
+                ]
+            },
+            "ScheduledNotificationPaginatedResponse": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ScheduledNotificationResponse"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/PaginationMetaResponse"
+                    }
+                },
+                "required": [
+                    "items",
+                    "meta"
+                ]
+            },
+            "NotificationTypeResponse": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "enum": [
+                            "game-update",
+                            "new-features",
+                            "system-maintenance",
+                            "exclusive-offers",
+                            "community-news",
+                            "other"
+                        ],
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "key",
+                    "name"
+                ]
+            },
+            "NotificationIntervalResponse": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "enum": [
+                            "doesnt-repeat",
+                            "repeat-daily",
+                            "repeat-weekly",
+                            "repeat-bi-weekly",
+                            "repeat-monthly",
+                            "repeat-annually"
+                        ],
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "key",
+                    "name"
+                ]
+            },
+            "CreateScheduledNotificationInput": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "redirectScreen": {
+                        "type": "string"
+                    },
+                    "notificationType": {
+                        "type": "string",
+                        "enum": [
+                            "game-update",
+                            "new-features",
+                            "system-maintenance",
+                            "exclusive-offers",
+                            "community-news",
+                            "other"
+                        ]
+                    },
+                    "individualUserId": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "interval": {
+                        "type": "string",
+                        "enum": [
+                            "doesnt-repeat",
+                            "repeat-daily",
+                            "repeat-weekly",
+                            "repeat-bi-weekly",
+                            "repeat-monthly",
+                            "repeat-annually"
+                        ]
+                    },
+                    "targetGroup": {
+                        "type": "string",
+                        "enum": [
+                            "all-users",
+                            "fortnite-players",
+                            "apex-legends-players",
+                            "call-of-duty-players",
+                            "rocket-league-players",
+                            "individual-user"
+                        ]
+                    }
+                },
+                "required": [
+                    "title",
+                    "description",
+                    "redirectScreen",
+                    "notificationType",
+                    "individualUserId",
+                    "date",
+                    "interval",
+                    "targetGroup"
+                ]
+            },
+            "ScheduledNotification": {
+                "type": "object",
+                "properties": {}
+            },
+            "DeleteScheduledNotificationsInput": {
+                "type": "object",
+                "properties": {
+                    "notificationIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "notificationIds"
+                ]
+            },
+            "UpdateScheduledNotificationInput": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "redirectScreen": {
+                        "type": "string"
+                    },
+                    "notificationType": {
+                        "type": "string",
+                        "enum": [
+                            "game-update",
+                            "new-features",
+                            "system-maintenance",
+                            "exclusive-offers",
+                            "community-news",
+                            "other"
+                        ]
+                    },
+                    "individualUserId": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "interval": {
+                        "type": "string",
+                        "enum": [
+                            "doesnt-repeat",
+                            "repeat-daily",
+                            "repeat-weekly",
+                            "repeat-bi-weekly",
+                            "repeat-monthly",
+                            "repeat-annually"
+                        ]
+                    },
+                    "targetGroup": {
+                        "type": "string",
+                        "enum": [
+                            "all-users",
+                            "fortnite-players",
+                            "apex-legends-players",
+                            "call-of-duty-players",
+                            "rocket-league-players",
+                            "individual-user"
+                        ]
+                    }
+                }
+            },
+            "ContactFormInput": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "firstName",
+                    "lastName",
+                    "email",
+                    "message"
+                ]
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}

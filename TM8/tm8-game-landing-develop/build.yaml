@@ -1,0 +1,23 @@
+targets:
+  $default:
+    sources:
+      - "pubspec.yaml"
+      - $package$
+      - lib/**
+      - input_folder/**
+    builders:
+      chopper_generator:
+        options:
+          header: "//Generated code"
+      swagger_dart_code_generator:
+        options:
+          input_folder: "input_folder/dev/"
+          # input_urls:
+          #   - url: "http://tm8-backend-t-ec2-7c81.eba-mz8krcuk.us-east-1.elasticbeanstalk.com/docs-json"
+          #     file_name: "swagger.json"
+          output_folder: "lib/swagger_generated_code/"
+          with_base_url: true
+          with_converter: true
+          override_to_string: false
+          use_path_for_request_names: true
+          use_default_null_for_lists: false

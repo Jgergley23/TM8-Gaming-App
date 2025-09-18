@@ -1,0 +1,16 @@
+export enum UserNotificationType {
+  GameUpdate = 'game-update',
+  NewFeatures = 'new-features',
+  SystemMaintenance = 'system-maintenance',
+  ExclusiveOffers = 'exclusive-offers',
+  CommunityNews = 'community-news',
+  Other = 'other',
+  Call = 'call',
+  Message = 'message',
+  FriendRequest = 'friend-request',
+  FriendAdded = 'friend-added',
+  Match = 'match',
+  Reminder = 'reminder',
+  Ban = 'ban',
+  Suspend = 'suspend',
+}

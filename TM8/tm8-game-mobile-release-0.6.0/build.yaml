@@ -1,0 +1,21 @@
+targets:
+  $default:
+    sources:
+      - "pubspec.yaml"
+      - $package$
+      - lib/**
+      - input_folder/**
+    builders:
+      chopper_generator:
+        options:
+          header: "//Generated code"
+      swagger_dart_code_generator:
+        options:
+          input_folder: "input_folder/dev/"
+          output_folder: "lib/swagger_generated_code/"
+          with_base_url: true
+          with_converter: true
+          include_if_null: false
+          override_to_string: false
+          use_path_for_request_names: true
+          use_default_null_for_lists: false

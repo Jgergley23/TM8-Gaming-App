@@ -1,0 +1,17 @@
+export enum GamePreferenceKey {
+  Gameplay = 'gameplay',
+  TeamSize = 'team-size',
+  ExtrasType = 'extras-type',
+  PlayingLevel = 'playing-level',
+  HowYouPlay = 'how-you-play',
+  MixtapeType = 'mixtape-type',
+  Type = 'type',
+  PlayerType = 'player-type',
+  Rotate = 'rotate',
+  PlayStyle = 'play-style',
+  Classifications = 'classifications',
+  Rank = 'rank',
+  GameMode = 'game-mode',
+  Playtime = 'playtime',
+  OnlineSchedule = 'online-schedule',
+}
